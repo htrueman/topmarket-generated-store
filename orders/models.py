@@ -37,7 +37,7 @@ class Order(TimeStampedModel):
         verbose_name=_('Телефон покупателя')
     )
     nova_poshta = models.CharField(
-        max_length=30,
+        max_length=256,
         null=True, blank=True,
         verbose_name=_('Отделение новой почты')
     )
