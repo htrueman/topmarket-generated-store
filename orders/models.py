@@ -28,6 +28,7 @@ class Order(TimeStampedModel):
         null=True, blank=True,
     )
     email = models.EmailField(
+        max_length=30,
         null=True, blank=True,
         verbose_name=_('Електронный адрес покупателя')
     )
