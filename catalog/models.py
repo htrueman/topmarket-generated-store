@@ -130,7 +130,7 @@ class ProductCharacteristic(models.Model):
     name = models.CharField(
         max_length=255,
         null=True, blank=True,
-        verbose_name = _('Имя характеристики'),
+        verbose_name=_('Имя характеристики'),
     )
     value = models.CharField(max_length=255, null=True, blank=True)
 

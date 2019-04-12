@@ -36,6 +36,7 @@ class Order(TimeStampedModel):
         verbose_name=_('Телефон покупателя')
     )
     nova_poshta = models.CharField(
+        max_length=256,
         null=True, blank=True,
         verbose_name=_('Отделение новой почты')
     )
@@ -62,7 +63,6 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE
     )
     quantity = models.PositiveSmallIntegerField(
-        max_length=100,
         verbose_name=_('Количество товара'),
         default=1
     )
