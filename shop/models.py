@@ -13,10 +13,15 @@ class SliderMainPage(models.Model):
 
 
 class LogoWithPhones(models.Model):
-    logo = models.ImageField(upload_to='shop/logo/')
+    logo = models.URLField(null=True, blank=True)
     shop_name = models.CharField(max_length=40, null=True, blank=True, verbose_name=_('Название магазина'))
     first_phone = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Контакт'))
     second_phone = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Контакт'))
+
+    def save(self, *args, **kwargs):
+        if self.__class__.objects.count():
+            self.pk = self.__class__.objects.first().pk
+        super().save(*args, **kwargs)
 
 
 class SocialNetwork(models.Model):

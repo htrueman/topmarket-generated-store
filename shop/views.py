@@ -1,18 +1,18 @@
 from django.shortcuts import render
 
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import  ListView, CreateView
 
-from shop.mixins import AjaxableResponseMixin
+from catalog.mixins import AjaxableResponseMixin
 from .models import LogoWithPhones, DeliveryAndPayment, ExchangeAndReturn, HowToUse, Support, Contacts, AboutUs, \
     SocialNetwork
 
 
-class LogoWithPhonesView(DetailView):
+class LogoWithPhonesView(ListView):
 
     model = LogoWithPhones
 
 
-class SocialNetworkView(DetailView):
+class SocialNetworkView(ListView):
 
     model = SocialNetwork
 
@@ -22,7 +22,7 @@ class DeliveryAndPaymentView(ListView):
     model = DeliveryAndPayment
 
 
-class ExchangeAndReturnView(DetailView):
+class ExchangeAndReturnView(ListView):
 
     model = ExchangeAndReturn
 
@@ -42,11 +42,13 @@ class SupportView(AjaxableResponseMixin, CreateView):
     ]
 
 
-class ContactsView(DetailView):
+class ContactsView(ListView):
 
     model = Contacts
 
 
-class AboutUsView(DetailView):
+class AboutUsView(ListView):
 
     model = AboutUs
+
+
