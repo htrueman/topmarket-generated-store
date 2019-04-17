@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 
     # libs
     'mptt',
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'catalog',
     'orders',
     'shop',
+    'api.orders_api',
+    'api.shop_api',
 ]
 
 MIDDLEWARE = [
