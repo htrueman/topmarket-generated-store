@@ -1,6 +1,27 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
+# Single tone
+
+
+class SingletonModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+# Models with single tone
 
 class SliderMainPage(models.Model):
     image_url = models.URLField(
@@ -12,19 +33,14 @@ class SliderMainPage(models.Model):
         verbose_name_plural = _('Ссылки на картинку')
 
 
-class LogoWithPhones(models.Model):
+class LogoWithPhones(SingletonModel):
     logo = models.URLField(null=True, blank=True)
     shop_name = models.CharField(max_length=40, null=True, blank=True, verbose_name=_('Название магазина'))
     first_phone = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Контакт'))
     second_phone = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Контакт'))
 
-    def save(self, *args, **kwargs):
-        if self.__class__.objects.count():
-            self.pk = self.__class__.objects.first().pk
-        super().save(*args, **kwargs)
 
-
-class SocialNetwork(models.Model):
+class SocialNetwork(SingletonModel):
 
     facebook = models.URLField(max_length=100, null=True, blank=True)
     instagram = models.URLField(max_length=100, null=True, blank=True)
@@ -32,32 +48,32 @@ class SocialNetwork(models.Model):
     google = models.URLField(max_length=100, null=True, blank=True)
 
 
-class DeliveryAndPayment(models.Model):
+class DeliveryAndPayment(SingletonModel):
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name=_('Заголовок'))
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
 
-class ExchangeAndReturn(models.Model):
+class ExchangeAndReturn(SingletonModel):
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name=_('Заголовок'))
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
 
-class HowToUse(models.Model):
+class HowToUse(SingletonModel):
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name=_('Заголовок'))
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
 
-class Support(models.Model):
+class Support(SingletonModel):
     name = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Имя'))
     email = models.EmailField(max_length=40, null=True, blank=True, verbose_name=_('Емейл'))
     message = models.TextField(null=True, blank=True, verbose_name=_('Сообщение'))
 
 
-class Contacts(models.Model):
+class Contacts(SingletonModel):
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
 
-class AboutUs(models.Model):
+class AboutUs(SingletonModel):
     title = models.CharField(max_length=40, null=True, blank=True, verbose_name=_('Заголовок'))
-    image = models.ImageField(upload_to='shop/about_us', null=True, blank=True)
+    image = models.URLField(null=True, blank=True)
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
