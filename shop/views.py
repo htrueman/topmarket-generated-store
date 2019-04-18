@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.views.generic import  ListView, CreateView
+from django.views.generic import ListView, CreateView
 
 from catalog.mixins import AjaxableResponseMixin
 from .models import LogoWithPhones, DeliveryAndPayment, ExchangeAndReturn, HowToUse, Support, Contacts, AboutUs, \
@@ -50,5 +50,4 @@ class ContactsView(ListView):
 class AboutUsView(ListView):
 
     model = AboutUs
-
 
