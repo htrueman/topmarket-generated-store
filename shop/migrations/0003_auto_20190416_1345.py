@@ -10,15 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='aboutus',
-            name='image_url',
-        ),
-        migrations.AddField(
-            model_name='aboutus',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='shop/about_us'),
-        ),
         migrations.AlterField(
             model_name='logowithphones',
             name='logo',
