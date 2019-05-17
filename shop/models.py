@@ -23,6 +23,20 @@ class SingletonModel(models.Model):
 
 # Models with single tone
 
+class Domain(SingletonModel):
+    is_domain = models.BooleanField(
+        default=True,
+        verbose_name=_('True - домен, False - поддомен')
+    )
+    name =  models.CharField(
+        max_length=32,
+        verbose_name=_('Имя домена/поддомена'),
+    )
+
+    def __str__(self):
+        return ''.format(self.name)
+
+
 class SliderMainPage(models.Model):
     image_url = models.URLField(
         verbose_name=_('Ссылка на картинку')

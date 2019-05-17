@@ -74,6 +74,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'catalog.context_processors.get_category_tree',
+                'basket.context_processors.cart',
+                'basket.context_processors.cart_detail',
+                'shop.context_processors.take_logo_with_phones',
             ],
         },
     },
@@ -133,8 +137,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+CART_SESSION_ID = 'cart'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
+
+STATICFILES_DIRS = [
+    ('app', 'app'),
+]

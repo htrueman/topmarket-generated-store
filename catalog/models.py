@@ -4,6 +4,13 @@ from django.utils.translation import ugettext as _
 from catalog import constants
 
 
+class CatalogManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        ids = Product.objects.all().values_list('category_id', flat=True)
+        queryset = super().get_queryset().filter(id__in=ids).get_ancestors(include_self=True)
+        return queryset
+
+
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата создания'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('Дата обновления'))
@@ -29,6 +36,8 @@ class Category(MPTTModel):
         on_delete=models.SET_NULL,
         db_index=True,
     )
+    # objects = CatalogManager()
+    category_by_products = CatalogManager()
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -101,6 +110,15 @@ class Product(TimeStampedModel):
         verbose_name=_('Цена товара'),
     )
 
+    is_best = models.BooleanField(
+        default=False,
+        verbose_name=_('Лучший товар')
+    )
+    is_recommended = models.BooleanField(
+        default=False,
+        verbose_name=_('Рекомендуемые товары')
+    )
+
     def __str__(self):
         return '{0}'.format(self.name)
 
@@ -112,7 +130,8 @@ class Product(TimeStampedModel):
 class ProductImageURL(models.Model):
     product = models.ForeignKey(
         Product,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='imageurls'
     )
     url = models.URLField(
         verbose_name=_('Ссылка на картинку'),

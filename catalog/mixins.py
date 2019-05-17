@@ -32,28 +32,30 @@ class AjaxableResponseMixin:
 
 class ProductFilterMixin:
     def get_queryset(self):
-        queryset = self.model.objects.all()
-        if self.request.GET.get('order'):
-            order_filter = self.request.GET.get('order')
-            queryset = queryset.order_by(order_filter)
-        if self.request.GET.get('min_price'):
-            price_min_filter = self.request.GET.get('min_price')
-            queryset = queryset.filter(price__gte=price_min_filter)
-        if self.request.GET.get('max_price'):
-            price_max_filter = self.request.GET.get('max_price')
-            queryset = queryset.filter(price__lte=price_max_filter)
-        if len(self.request.GET.getlist('brand')) > 0:
-            brand_list = self.request.GET.getlist('brand')
-            queryset = queryset.filter(brand__in=brand_list)
-        if self.request.GET.get('q'):
-            q = self.request.GET.get('q')
-            queryset = queryset.filter(Q(name__icontains=q) or Q(description__icontains=q))
+        queryset = super().get_queryset()
+        brands = self.request.GET.getlist('brand', None)
+        price_min = self.request.GET.get('min_price', None)
+        price_max = self.request.GET.get('max_price', None)
+        print(price_min, price_max)
+        if brands:
+            queryset = queryset.filter(brand__in=brands)
+        if price_min:
+            queryset = queryset.filter(price__gte=price_min)
+        if price_max:
+            queryset = queryset.filter(price__lte=price_max)
+        print(queryset)
         return queryset
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super().get_context_data(**kwargs)
-        products = self.get_queryset()
-        # data['brands'] = Brand.objects.filter(id__in=products.values_list('brand'))
-        data['category_slug'] = self.kwargs['slug']
-        data['category_pk'] = self.kwargs['pk']
-        return data
+    def get_context_data(self, *args, **kwargs):
+        # context = super().get_context_data(*args, **kwargs)
+        context = {}
+        min_price = self.request.GET.get('min_price', '')
+        max_price = self.request.GET.get('max_price', '')
+        context['brands'] = self.request.GET.getlist('brand', [])
+        context['min_price'] = min_price
+        context['max_price'] = max_price
+        context['brand_list'] = self.model.objects.all().distinct('brand').values_list('brand', flat=True)
+        context['join_brand'] = ''.join(['&brand=' + brand for brand in self.request.GET.getlist('brand', [])])
+        context['min_price_join'] = '&min_price=' + min_price if min_price else ''
+        context['max_price_join'] = '&max_price=' + max_price if max_price else ''
+        return context

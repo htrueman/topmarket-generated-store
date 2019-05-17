@@ -106,3 +106,4 @@ ENV/
 env.json
 media/
 static/
+node_modules/
