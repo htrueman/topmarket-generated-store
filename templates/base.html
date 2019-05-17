@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    {% block meta_tags %}
+    <meta charset="UTF-8">
+    {% endblock meta_tags %}
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    {% block stylesheets %}{% endblock stylesheets %}
+    {% block extra_head %}
+
+    <style>
+        header  {
+            display: block;
+        }
+    </style>
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+<header>
+    {% block header %}
+        {% block slider%}
+        {% endblock slider %}
+    {% endblock header %}
+
+    {% block headerpopup %} {% endblock headerpopup %}
+</header>
+    {% block content %} {% endblock content %}
+
+    {% block footer %} {% endblock footer %}
+
+    {% block extra_javascript %} {% endblock extra_javascript %}
+
+    {% block javascript %}{% endblock javascript %}
+{% endblock body %}
+</body>
+</html>

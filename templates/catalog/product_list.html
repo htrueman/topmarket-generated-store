@@ -1,10 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock %}
+{% block content %}
 
-</body>
-</html>
+<section class="about">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Интернет-магазин</a></li>
+            <li><a href="#">Техника</a></li>
+            <li>Ноутбуки</li>
+        </ul>
+    </div>
+    <div class="container">
+        <main class="products-product-wrap">
+            <aside class="filter">
+                <form method="get" action="{% url 'catalog:products_list'  %}">
+                    <div class="filter-price">
+                        <h5>Цена</h5>
+                        <div class="filter-price-row">
+                            <span>от</span>
+                            <input name="min_price" type="number" value="{{ min_price }}">
+                            <span>до</span>
+                            <input name="max_price" type="number" value="{{ max_price }}">
+                            <span>грн</span>
+                        </div>
+                    </div>
+                    <div class="filter-brand">
+                        <h5>Бренд</h5>
+                        {% for brand in brand_list %}
+                            {% if brand in brands %}
+                                <p><input name="brand" type="checkbox" value="{{ brand }}" checked>{{ brand }}</p>
+                            {% else %}
+                                <p><input name="brand" type="checkbox" value="{{ brand }}">{{ brand }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                <button  class="button-by-items">Сортировать</button>
+                </form>
+            </aside>
+            <div class="products-list">
+                {% for product in products %}
+                <div class="product">
+                    <a href="#">
+                        <div class="product-img">
+                            <img src="{{ product.imageurls.first.url }}" alt="">
+                        </div>
+                        <h5 class="product-title">{{ product.name }}</h5>
+                        <div class="product-price">{{ product.price }}</div>
+{#                        <div class="product-old-price">29 000 ₴</div>#}
+                        <div class="wish-btn"><img src="{% static 'app/img/whish-btn.png' %}" alt=""></div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+        {% if is_paginated %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}{{ join_brand }}{{ min_price_join }}{{ max_price }}">&laquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}{{ join_brand }}{{ min_price_join }}{{ max_price_join }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}{{ join_brand }}{{ min_price_join }}{{ max_price_join }}">&raquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock content %}
