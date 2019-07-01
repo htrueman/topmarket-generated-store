@@ -4,10 +4,6 @@ from django.utils.translation import ugettext as _
 
 
 class Order(TimeStampedModel):
-    user_phone = models.CharField(
-        max_length=13,
-        verbose_name=_('Телефон покупателя')
-    )
     city = models.CharField(
         max_length=256,
         null=True, blank=True,

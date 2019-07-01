@@ -62,7 +62,7 @@ class SocialNetwork(SingletonModel):
     google = models.URLField(max_length=100, null=True, blank=True)
 
 
-class DeliveryAndPayment(SingletonModel):
+class DeliveryAndPayment(models.Model):
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name=_('Заголовок'))
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
@@ -72,7 +72,7 @@ class ExchangeAndReturn(SingletonModel):
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 
 
-class HowToUse(SingletonModel):
+class HowToUse(models.Model):
     title = models.CharField(max_length=50, null=True, blank=True, verbose_name=_('Заголовок'))
     text = models.TextField(null=True, blank=True, verbose_name=_('Текст'))
 

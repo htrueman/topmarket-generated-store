@@ -1,0 +1,29 @@
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock slider %}
+{% block content %}
+
+<section class="contacts">
+    <div class="container">
+            <div class="main-block contacts-block">
+            <h3 class="title">Контакты</h3>
+                <p>{{ contacts.text|safe }}</p>
+                <div class="social-icons">
+                    <a href="{{ social.facebook }}"><img src="{% static "app/img/fb.svg" %}" alt="fb"></a>
+                    <a href="{{ social.instagram }}"><img src="{% static "app/img/instagram.svg" %}" alt="instagram"></a>
+                    <a href="{{ social.twitter }}"><img src="{% static "app/img/twitter.svg" %}" alt="twitter"></a>
+                    <a href="{{ social.google }}"><img src="{% static "app/img/google.svg" %}" alt="google"></a>
+                </div>
+             </div>
+            <aside class="sidebar">
+                <a href="{% url 'shop:delivery_and_payment_url' %}">Доставка и оплата</a>
+                <a href="{% url 'shop:how_to_use_url' %}">Обмен и возврат</a>
+                <a href="{% url 'shop:how_to_use_url' %}">Как использовать</a>
+                <a href="{% url 'shop:how_to_use_url' %}">Помощь</a>
+                <a href="{% url 'shop:contacts_url' %}">Контакты</a>
+                <a href="{% url 'shop:about_us_url' %}">О нас</a>
+            </aside>
+    </div>
+</section>
+{% endblock content %}
