@@ -4,22 +4,95 @@
 {% endblock slider %}
 {% block content %}
 
-    <section class="about">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="#">Интернет-магазин</a></li>
-                <li><a href="#">Техника</a></li>
-                <li><a href="#">Ноутбуки и планшеты</a></li>
-                <li>Ноутбук HP 15-ra023ur (3FY99EA) Black</li>
-            </ul>
-        </div>
-        <div class="container">
-            <div class="product-block">
-                <div>
+<section class="">
+    <div class="container">
+        <div class="product-block">
+            <div class="product-slider">
+                <div class="slider slider-nav">
+                    {% for image in product.imageurls.all %}
+                    <div class="mini-img">
+                        <img src="{{ image.url }}" alt="">
+                    </div>
+                    {% endfor %}
+                </div>
 
+                <div class="slider slider-for">
+                    {% for image in product.imageurls.all %}
+                    <div class="mini-img">
+                        <img src="{{ image.url }}" alt="">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">
+                    <h5 class="product-name">{{ product.name }}</h5>
+                    <span class="code">Код: {{ product.vendor_code }}</span>
+                </div>
+                <div class="seller">
+                    <h6>Продавец этого товара Rozetka</h6>
+                    <div class="brand">
+                        <img src="{% static  'app/img/rozetka.png'%}">
+                    </div>
+                </div>
+{#                <div class="product-color">#}
+{#                    <h5>Цвет</h5>#}
+{#                    <select>#}
+{#                        <option>Черный</option>#}
+{#                        <option>Белый</option>#}
+{#                    </select>#}
+{#                </div>#}
+                <div class="price-block">
+{#                    <span class="old-price">{{ product.price }}</span>#}
+                    <span class="price">{{ product.price }}</span>
+                </div>
+                <div class="btns">
+                    <button onclick="add_to_cart({{product.id}}, 1)" class="buy">Купить</button>
+                    <button class="wish"><img src="{% static 'app/img/whish-btn.png' %}" alt=""></button>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="about-product">
+            <div class="characteristics">
+                <h4>Характеристики товара</h4>
+                {% regroup product.characteristics.all by characteristic_type as characteristic_type_list %}
+                {% for characteristic_type in characteristic_type_list %}
+                    <h6>{{characteristic_type.grouper}}</h6>
+                    <ul class="characteristics-list">
+                        {% for characteristic in characteristic_type.list %}
+                            <li> {{ characteristic.name }}   <span>{{ characteristic.value }}</span></li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
+            <div class="description">
+                <h4>Описание</h4>
+                <p>{{ product.description }}</p>
+            </div>
+        </div>
+        <div class="reviews-block">
+            {% if product.product_feedback.all %}
+            <h3>Отзывы о {{ product.name }}</h3>
+            {% for feedback in product.product_feedback.all %}
+            <div class="review">
+                <div>
+                    <h5 class="user-name">{{ feedback.name }}</h5>
+                </div>
+                <div class="review-text">
+                    <p>{{ feedback.content }}</p>
+                    <div class="review-actions">
+{#                        <span class="reply"><img src="{% static 'app/img/chat.svg' %}" alt="">Ответить</span>#}
+{#                        <span><a href="#" class="useful">Полезен ли отзыв?</a></span>#}
+{#                        <button class="like"><img src="img/like.svg" alt=""><span>(10)</span></button>#}
+{#                        <button class="dislike"><img src="img/dislike.svg" alt=""><span>(3)</span></button>#}
+                    </div>
+                </div>
+                <div class="date">{{ feedback.pub_date }}</div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</section>
 
 {% endblock content %}

@@ -1,5 +1,6 @@
-from django.http import JsonResponse
 from django.db.models import Q
+from django.http import JsonResponse
+from django.views.generic import ListView
 
 
 class AjaxableResponseMixin:
@@ -7,6 +8,7 @@ class AjaxableResponseMixin:
     Mixin to add AJAX support to a form.
     Must be used with an object-based FormView (e.g. CreateView)
     """
+
     def form_valid(self, form):
         response = super().form_valid(form)
         if self.request.is_ajax():
@@ -33,22 +35,22 @@ class AjaxableResponseMixin:
 class ProductFilterMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
-        brands = self.request.GET.getlist('brand', None)
+        brands = self.request.GET.getlist('brand', [])
         price_min = self.request.GET.get('min_price', None)
         price_max = self.request.GET.get('max_price', None)
-        print(price_min, price_max)
+        search = self.request.GET.get('q', None)
         if brands:
             queryset = queryset.filter(brand__in=brands)
         if price_min:
             queryset = queryset.filter(price__gte=price_min)
         if price_max:
             queryset = queryset.filter(price__lte=price_max)
-        print(queryset)
+        if search:
+            queryset = queryset.filter(Q(name__icontains=search) or Q(description__icontains=search))
         return queryset
 
     def get_context_data(self, *args, **kwargs):
-        # context = super().get_context_data(*args, **kwargs)
-        context = {}
+        context = super().get_context_data()
         min_price = self.request.GET.get('min_price', '')
         max_price = self.request.GET.get('max_price', '')
         context['brands'] = self.request.GET.getlist('brand', [])

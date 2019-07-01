@@ -1,0 +1,29 @@
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock slider %}
+{% block content %}
+
+<section class="about">
+    <div class="container">
+        <div class="main-block about-block">
+            <h3 class="title">О Нас</h3>
+            <div class="about-main">
+                <div class="about-img">
+                    <img src="{{ about.image }}" alt="">
+                </div>
+                <p class="about-text">{{ about.text }}</p>
+            </div>
+        </div>
+        <aside class="sidebar">
+            <a href="{% url 'shop:delivery_and_payment_url' %}">Доставка и оплата</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Обмен и возврат</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Как использовать</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Помощь</a>
+            <a href="{% url 'shop:contacts_url' %}">Контакты</a>
+            <a href="{% url 'shop:about_us_url' %}">О нас</a>
+        </aside>
+    </div>
+</section>
+
+{% endblock content %}

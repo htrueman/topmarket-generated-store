@@ -1,0 +1,32 @@
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock slider %}
+{% block content %}
+
+<section class="about">
+    <div class="container">
+        <div class="main-block how-to-use">
+            <h3 class="title">Как использовать</h3>
+            {% for how_to_use in how_to_use_list %}
+            <div id="accordion">
+                <h4 class="accordion-toggle">{{ how_to_use.title }}</h4>
+                <div class="accordion-content default">
+                    <p>{{ how_to_use.text }}</p>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        <aside class="sidebar">
+            <a href="{% url 'shop:delivery_and_payment_url' %}">Доставка и оплата</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Обмен и возврат</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Как использовать</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Помощь</a>
+            <a href="{% url 'shop:contacts_url' %}">Контакты</a>
+            <a href="{% url 'shop:about_us_url' %}">О нас</a>
+        </aside>
+    </div>
+</section>
+
+{% endblock content %}

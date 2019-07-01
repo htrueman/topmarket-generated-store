@@ -1,0 +1,29 @@
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock slider %}
+{% block content %}
+
+<section class="about">
+    <div class="container">
+        <div class="main-block delivery-block">
+            <h3 class="title">Доставка и оплата</h3>
+            {% for delivery in deliveries %}
+            <div class="regions">
+                <h5>{{ delivery.title }}</h5>
+                <p>{{ delivery.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <aside class="sidebar">
+            <a href="{% url 'shop:delivery_and_payment_url' %}">Доставка и оплата</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Обмен и возврат</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Как использовать</a>
+            <a href="{% url 'shop:how_to_use_url' %}">Помощь</a>
+            <a href="{% url 'shop:contacts_url' %}">Контакты</a>
+            <a href="{% url 'shop:about_us_url' %}">О нас</a>
+        </aside>
+    </div>
+</section>
+
+{% endblock content %}

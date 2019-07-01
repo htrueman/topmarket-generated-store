@@ -1,18 +1,21 @@
-@import "head.html"
-@import "header.html"
-
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block slider %}
+{% endblock slider %}
+{% block content %}
 
 <section class="">
     <div class="container">
         <div class="order-block">
-            <form action="">
+            <form id="order_create_form" method="post" action="{% url 'orders:order_create' %}">
+                {% csrf_token %}
                 <div class="left">
                     <div class="checkout-block">
                         <h3>Оформить заказ</h3>
                         <div class="inputs">
                             <label for="">Ваш город</label>
                             <div>
-                                <input type="text">
+                                <input name="city" type="text" required>
                             </div>
                         </div>
 
@@ -20,47 +23,39 @@
                             <label for="">Доставка</label>
                             <div class="dell">
                                 <div class="np-delivery">
-                                    <input type="checkbox" name="">
-                                    <span>Доставка Новой Почтой</span>
-                                    <div class="np-delivery-price">20 грн</div>
-                                </div>
-                                <div class="courier-delivery">
-                                    <input type="checkbox" name="">
-                                    <span>Куръер по Киеву</span>
-                                    <div class="courier-delivery-price">50 грн</div>
+                                    <span style="margin-left: 35px">Доставка Новой Почтой</span>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="inputs">
                             <label for="">Телефон</label>
                             <div>
-                                <input type="tel">
+                                <input name="phone" type="tel" required>
                             </div>
                         </div>
                         <div class="inputs">
                             <label for="">Имя</label>
                             <div>
-                                <input type="text">
+                                <input name="first_name" type="text" required>
                             </div>
                         </div>
                         <div class="inputs">
                             <label for="">Фамилия</label>
                             <div>
-                                <input type="text">
+                                <input name="last_name" type="text" required>
                             </div>
                         </div>
                         <div class="inputs">
                             <label for="">Отчество</label>
                             <div>
-                                <input type="text">
+                                <input name="patronymic" type="text" required>
                             </div>
                         </div>
                         <div class="inputs">
                             <label for="">E-mail</label>
                             <div>
-                                <input type="email">
+                                <input name="email" type="email" required>
                             </div>
                         </div>
                     </div>
@@ -69,41 +64,35 @@
                         <div class="inputs">
                             <label for="">Номер отделения</label>
                             <div>
-                                <input type="tel">
+                                <input name="nova_poshta" type="text" required>
                             </div>
                         </div>
                     </div>
                     <button class="order-btn hid">Оформить заказ </button>
                 </div>
                 <div class="order-cart-products">
-                    <div class="cart-product-item">
-                        <div class="cart-product-img">
-                            <img src="img/product.png" alt="">
-                        </div>
-                        <div class="cart-product-info">
-                            <h5 class="product-name">Холодильник Vestfrost CX263W</h5>
-                            <span class="product-code">Код: 1318632</span>
+                    {% for item in cart %}
+                        <div class="cart-product-item">
+                            <div class="cart-product-img">
+                                <img src="{{ item.product.imageurls.first.url }}">
+                            </div>
+                            <div class="cart-product-info">
+                                <h5 class="product-name">{{ item.product.name }}</h5>
+                                <span class="product-code">Код: {{ item.product.vendor_code }}</span>
 
-                            <div class="amountandprice">
-                                <form>
-
-                                </form>
-
-
-                                <div class="product-price">7 999 грн</div>
+                                <div class="amountandprice">
+                                    <div class="product-price">{{ item.product.price }} грн</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="delete">
-                            <a href="#" class="delete"><img src="img/delete.svg" alt=""></a>
-                        </div>
-                    </div>
+                    {% endfor %}
 
 
 
 
                     <div class="order-total-price">
                         <p>Итого:</p>
-                        <span class="total-price">35 699 грн</span>
+                        <span class="total-price">{{ cart.get_total_price }} грн</span>
                     </div>
                     <button class="order-btn mob">Оформить заказ </button>
                 </div>
@@ -112,5 +101,5 @@
     </div>
 </section>
 
-@import "foot.html"
-@import "footer.html"
+
+{% endblock content %}

@@ -15,10 +15,10 @@ def cart_add(request):
     try:
         cart.add(product=product)
         response_data['added'] = True
-        response_data['message'] = 'Товар успішно додано в корзину'
+        response_data['message'] = 'Товар успешно добавлен в корзину'
     except:
         response_data['added'] = False
-        response_data['message'] = "Помилка. Не вдалося додати до кошику."
+        response_data['message'] = "Ошибка. Не удалось добавить в корзину."
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
